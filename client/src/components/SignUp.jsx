@@ -38,10 +38,10 @@ const SignUp = () => {
         email: email,
         password: password,
       }).then(response => {
-        if(response.data === 'User saved'){
+        if(response.data.msg === 'User saved'){
           navigate('/home');
         }
-        else if(response.data === 'User exists'){
+        else if(response.data.msg === 'User exists'){
           toast.error('Email Id already exists')
         }
       }).catch(error=>{

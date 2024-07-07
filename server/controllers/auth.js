@@ -1,27 +1,27 @@
 const User = require('../models/user');
 
-const signupNewUser = (req,res)=>{
-    const {name,email,password} = req.body;
+const signupNewUser = (req, res) => {
+    const { name, email, password } = req.body;
 
-    User.findOne({email : email})
-    .then((user)=>{
-        if(!user){
-            const newUser = new User({
-                name : name,
-                email : email,
-                password : password
-            });
+    User.findOne({ email: email })
+        .then((user) => {
+            if (!user) {
+                const newUser = new User({
+                    name: name,
+                    email: email,
+                    password: password
+                });
 
-            newUser.save().then(()=>{
-                res.json("User saved")
-            })
+                newUser.save().then(async () => {
+                    res.json({ msg: "User saved", token: await newUser.generateToken(), userId: newUser._id.toString() })
+                })
 
-        }
-        else{
-            res.json("User exists")
-        }
-    })
+            }
+            else {
+                res.json("User exists")
+            }
+        })
 
 }
 
-module.exports = {signupNewUser};
+module.exports = { signupNewUser };
